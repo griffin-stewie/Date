@@ -49,6 +49,11 @@ struct DateWidgetEntryView : View {
             }
 
             HStack {
+                Image(systemName: "globe.asia.australia")
+                Text(japaneseDateFormatter.string(from: entry.date))
+            }
+
+            HStack {
                 Image(systemName: "globe.americas")
                 Text(entry.date.formatted(
                     .dateTime
@@ -61,6 +66,14 @@ struct DateWidgetEntryView : View {
             }
         }
         .font(.title3)
+    }
+
+    var japaneseDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .japanese)
+        formatter.locale = Locale(identifier: "ja_JP")
+        formatter.setLocalizedDateFormatFromTemplate("GyMMMdd")
+        return formatter
     }
 }
 
