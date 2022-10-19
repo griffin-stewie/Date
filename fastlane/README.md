@@ -15,13 +15,21 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Mac
 
+### mac bump
+
+```sh
+[bundle exec] fastlane mac bump
+```
+
+Build release build and notarize
+
 ### mac release
 
 ```sh
 [bundle exec] fastlane mac release
 ```
 
-Description of what the lane does
+Build release build and notarize
 
 ----
 
