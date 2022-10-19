@@ -19,9 +19,69 @@ fastlane_require 'fileutils'
 
 default_platform(:mac)
 
+xcodeproj_path = "./App/Date.xcodeproj"
+
+def github_output
+  output_path = ENV["GITHUB_OUTPUT"]
+  unless output_path
+    return nil
+  end
+
+  puts `cat #{output_path}` 
+  hash = {}
+  File.open(output_path) { |f|
+    output = f.read
+    puts output
+    output.each_line { |line|    
+      kv = line.split("=")
+      unless kv.length >= 2 
+          next
+      end
+    
+      hash[kv[0].strip] = kv[1].strip
+    }
+  }
+  
+  return hash
+end
+
+def tag_from_env
+  output = github_output
+  unless output
+    return nil
+  end
+
+  return output["tag"]
+end
+
 platform :mac do
-  desc "Description of what the lane does"
-  lane :release do
+  desc "Build release build and notarize"
+  lane :bump do |options|
+    if FastlaneCore::Helper.ci?
+      increment_build_number_in_xcodeproj(
+        xcodeproj: xcodeproj_path 
+      )
+    end
+
+    puts ENV["GITHUB_OUTPUT"]
+    puts github_output
+    tag = tag_from_env
+    if tag == nil  
+      tag = options[:tag]      
+    end 
+
+    puts tag
+    if tag != nil && !tag.empty?
+      version = tag[1..-1]
+      increment_version_number_in_xcodeproj(
+        version_number: version,
+        xcodeproj: xcodeproj_path 
+      )
+    end
+  end 
+
+  desc "Build release build and notarize"
+  lane :release do |options|
     output_directory = "build"
 
     # Remove build dir before build 
@@ -31,7 +91,7 @@ platform :mac do
       scheme: "Date",
       output_directory: output_directory,
       export_method: "developer-id",
-      project: "./App/Date.xcodeproj",
+      project: xcodeproj_path,
       configuration: "Release",
       clean: true
     )

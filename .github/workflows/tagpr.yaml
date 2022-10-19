@@ -1,0 +1,38 @@
+name: tagpr
+on:
+  push:
+    branches:
+    - "main"
+jobs:
+  tagpr:
+    runs-on: macos-12
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: tagpr
+      id: tagpr
+      uses: Songmu/tagpr@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: ./.github/actions/release
+      with:
+        tag: ${{ steps.tagpr.outputs.tag }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        signing-identifier: ${{ secrets.SIGNING_IDENTIFIER }}
+        apple-id: ${{ secrets.FL_NOTARIZE_USERNAME }}
+        apple-id-password: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+        team-id: ${{ secrets.FL_NOTARIZE_ASC_PROVIDER }}
+        certificate-base64: ${{ secrets.CERTIFICATE_BASE64 }}
+        p12-password: ${{ secrets.P12_PASSWORD }}
+      if: "steps.tagpr.outputs.tag != ''"
+    - name: Update formula on tag
+      if: "steps.tagpr.outputs.tag != ''"
+      uses: "mislav/bump-homebrew-formula-action@v2"
+      with:
+        tag-name: ${{ steps.tagpr.outputs.tag }}
+        download-url: https://github.com/griffin-stewie/Date/releases/download/${{ steps.tagpr.outputs.tag }}/Date.app.zip
+        formula-name: date
+        formula-path: Casks/date.rb
+        homebrew-tap: griffin-stewie/homebrew-formulae
+      env:
+        COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
