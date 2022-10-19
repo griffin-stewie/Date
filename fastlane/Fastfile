@@ -1,0 +1,51 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+actions_path './actions/'
+fastlane_require 'pp'
+fastlane_require 'fileutils'
+
+default_platform(:mac)
+
+platform :mac do
+  desc "Description of what the lane does"
+  lane :release do
+    output_directory = "build"
+
+    # Remove build dir before build 
+    FileUtils.rm_rf(File.join(git_repo_root, output_directory))
+
+    build_app(
+      scheme: "Date",
+      output_directory: output_directory,
+      export_method: "developer-id",
+      project: "./App/Date.xcodeproj",
+      configuration: "Release",
+      clean: true
+    )
+
+    # apply these values via ENV
+    # - 'Apple ID username' → FL_NOTARIZE_USERNAME
+    # - 'Apple ID password' → FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD
+    # - 'Team ID' → FL_NOTARIZE_ASC_PROVIDER
+    # https://github.com/fastlane/fastlane/blob/950bb820237d52e15690408083e328f739ac0ef3/fastlane/lib/fastlane/actions/notarize.rb#L63
+    notarize(
+      package: "build/Date.app",
+      use_notarytool: true,
+      print_log: true,
+      bundle_id: "net.cyan-stivy.Date",
+    )
+  end
+end
