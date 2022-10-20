@@ -77,7 +77,7 @@ runs:
       FL_NOTARIZE_ASC_PROVIDER: ${{ inputs.team-id }}
     run: |
       fastlane install_plugins
-      fastlane release tag:${{ input.tag }}
+      fastlane release tag:${{ inputs.tag }}
     shell: bash
   - name: upload
     uses: softprops/action-gh-release@v1
