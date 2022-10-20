@@ -25,10 +25,10 @@ inputs:
   p12-password:
     description: password for Developer ID certificate
     required: true
-  # keychain-profile:
-  #   description: 'notarytool --keychain-profile parameter'
-  #   required: true
-  #   default: 'AC_PASSWORD'
+  keychain-profile:
+    description: 'notarytool --keychain-profile parameter'
+    required: true
+    default: 'AC_PASSWORD'
 runs:
   using: composite
   steps:
