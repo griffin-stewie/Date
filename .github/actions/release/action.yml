@@ -76,7 +76,8 @@ runs:
       FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ inputs.apple-id-password }}
       FL_NOTARIZE_ASC_PROVIDER: ${{ inputs.team-id }}
     run: |
-      fastlane release
+      fastlane install_plugins
+      fastlane release tag:${{ input.tag }}
     shell: bash
   - name: upload
     uses: softprops/action-gh-release@v1

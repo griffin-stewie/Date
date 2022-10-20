@@ -21,17 +21,32 @@ default_platform(:mac)
 
 platform :mac do
   desc "Description of what the lane does"
-  lane :release do
+  lane :release do |options|
     output_directory = "build"
+    xcodeproj_path = "./App/Date.xcodeproj"
 
     # Remove build dir before build 
     FileUtils.rm_rf(File.join(git_repo_root, output_directory))
+
+    if FastlaneCore::Helper.ci?
+      increment_build_number_in_xcodeproj(
+        xcodeproj: xcodeproj_path 
+      )
+    end
+
+    unless options[:tag].empty?
+      version = options[:tag][1..-1]
+      increment_version_number_in_xcodeproj(
+        version_number: version,
+        xcodeproj: xcodeproj_path 
+      )
+    end
 
     build_app(
       scheme: "Date",
       output_directory: output_directory,
       export_method: "developer-id",
-      project: "./App/Date.xcodeproj",
+      project: xcodeproj_path,
       configuration: "Release",
       clean: true
     )
