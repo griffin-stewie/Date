@@ -25,13 +25,14 @@ jobs:
         certificate-base64: ${{ secrets.CERTIFICATE_BASE64 }}
         p12-password: ${{ secrets.P12_PASSWORD }}
       if: "steps.tagpr.outputs.tag != ''"
-    # - name: Update formula on tag
-    #   if: "steps.tagpr.outputs.tag != ''"
-    #   uses: "mislav/bump-homebrew-formula-action@v2"
-    #   with:
-    #     tag-name: ${{ steps.tagpr.outputs.tag }}
-    #     download-url: https://github.com/griffin-stewie/xopen-cli/releases/download/${{ steps.tagpr.outputs.tag }}/release_binary.zip
-    #     formula-name: xopen-cli
-    #     homebrew-tap: griffin-stewie/homebrew-formulae
-    #   env:
-    #     COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
+    - name: Update formula on tag
+      if: "steps.tagpr.outputs.tag != ''"
+      uses: "mislav/bump-homebrew-formula-action@v2"
+      with:
+        tag-name: ${{ steps.tagpr.outputs.tag }}
+        download-url: https://github.com/griffin-stewie/Date/releases/download/${{ steps.tagpr.outputs.tag }}/Date.app.zip
+        formula-name: date
+        formula-path: Casks/date.rb
+        homebrew-tap: griffin-stewie/homebrew-formulae
+      env:
+        COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
