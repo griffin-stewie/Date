@@ -59,6 +59,9 @@ platform :mac do
       )
     end
 
+    puts ENV["GITHUB_OUTPUT"]
+    puts github_output
+    puts tag_from_env
     tag = tag_from_env.presence || options[:tag]
 
     unless tag.empty? || 
