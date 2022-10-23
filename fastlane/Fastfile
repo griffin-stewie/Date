@@ -29,12 +29,12 @@ def github_output
 
   hash = {}
   output.each_line { |line|    
-      kv = line.split("=")
-      unless kv.length >= 2 
-          continue
-      end
+    kv = line.split("=")
+    unless kv.length >= 2 
+        next
+    end
   
-      hash[kv[0].strip] = kv[1].strip
+    hash[kv[0].strip] = kv[1].strip
   }
   
   return hash
@@ -48,7 +48,6 @@ def tag_from_env
 
   return output["tag"]
 end
-
 
 platform :mac do
   desc "Build release build and notarize"
