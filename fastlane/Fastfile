@@ -27,6 +27,7 @@ def github_output
     return nil
   end
 
+  puts `cat #{output_path}` 
   hash = {}
   File.open(output_path) { |f|
     output = f.read
