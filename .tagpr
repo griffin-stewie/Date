@@ -33,4 +33,4 @@
 	vPrefix = true
 	releaseBranch = main
 	versionFile = -
-	command = "fastlane bump"
+	command = "cat $GITHUB_OUTPUT; fastlane bump"
