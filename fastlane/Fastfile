@@ -22,19 +22,22 @@ default_platform(:mac)
 xcodeproj_path = "./App/Date.xcodeproj"
 
 def github_output
-  output = ENV["GITHUB_OUTPUT"]
-  unless output
+  output_path = ENV["GITHUB_OUTPUT"]
+  unless output_path
     return nil
   end
 
   hash = {}
-  output.each_line { |line|    
-    kv = line.split("=")
-    unless kv.length >= 2 
-        next
-    end
-  
-    hash[kv[0].strip] = kv[1].strip
+  File.open(output_path){|f|
+    output = f.read
+    output.each_line { |line|    
+      kv = line.split("=")
+      unless kv.length >= 2 
+          next
+      end
+    
+      hash[kv[0].strip] = kv[1].strip
+    }
   }
   
   return hash
@@ -60,10 +63,13 @@ platform :mac do
 
     puts ENV["GITHUB_OUTPUT"]
     puts github_output
-    puts tag_from_env
-    tag = tag_from_env.presence || options[:tag]
+    tag = tag_from_env
+    if tag == nil  
+      tag = options[:tag]      
+    end 
 
-    unless tag.empty? || 
+    puts tag
+    if tag != nil && !tag.empty?
       version = tag[1..-1]
       increment_version_number_in_xcodeproj(
         version_number: version,
