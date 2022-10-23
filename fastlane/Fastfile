@@ -28,8 +28,9 @@ def github_output
   end
 
   hash = {}
-  File.open(output_path){|f|
+  File.open(output_path) { |f|
     output = f.read
+    puts output
     output.each_line { |line|    
       kv = line.split("=")
       unless kv.length >= 2 
