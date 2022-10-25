@@ -1,5 +1,8 @@
 # Changelog
 
+## [v1.0.1](https://github.com/griffin-stewie/Date/compare/v1.0.0...v1.0.1) - 2022-10-25
+- Prepare/fastlane by @griffin-stewie in https://github.com/griffin-stewie/Date/pull/1
+
 ## [v1.0.7](https://github.com/griffin-stewie/Date/compare/v1.0.6...v1.0.7) - 2022-10-24
 
 ## [v1.0.6](https://github.com/griffin-stewie/Date/compare/v1.0.5...v1.0.6) - 2022-10-20
