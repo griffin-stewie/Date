@@ -9,24 +9,40 @@
 import SwiftUI
 
 struct ContentView: View {
-    let date = Date()
+
+    @Environment(\.openURL) private var openURL
+
+    let description = """
+    This application is a container application that exists to provide Widgets.
+    """
+
+    let helpURL = URL(string: "https://support.apple.com/guide/mac-help/add-customize-widgets-notification-center-mchl52be5da5/mac")!
+
     var body: some View {
         VStack {
-            VStack {
-                Text(
-                    date.formatted(
-                        .dateTime
-                            .year()
-                            .month()
-                            .day()
-                            .locale(.init(identifier: "ja_JP"))
-                    )
-                )
-                Text(date.formatted(date: .long, time: .omitted))
+            Image(nsImage: NSApp.applicationIconImage)
+                .resizable()
+                .frame(width: 200, height: 200, alignment: .center)
+            Text("Date")
+                .font(.system(size: 36))
+                .fontWeight(.heavy)
+
+            VStack(alignment: .leading, spacing: 20) {
+                Text(description)
+                    .font(.body)
             }
-            Text(Locale.current.languageCode!)
+            .multilineTextAlignment(.leading)
+            .padding()
+            Spacer()
+
+            Button("How to setup", action: {
+                openURL(helpURL)
+            })
+
+            Spacer()
         }
-        .padding()
+            .padding()
+            .frame(width: 440, height: 500)
     }
 }
 
