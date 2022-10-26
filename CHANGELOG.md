@@ -1,5 +1,7 @@
 # Changelog
 
+## [v1.0.1](https://github.com/griffin-stewie/Date/compare/v1.0.0...v1.0.1) - 2022-10-26
+
 ## [v0.0.1](https://github.com/griffin-stewie/Date/commits/v0.0.1) - 2022-10-26
 - prepare container app view by @griffin-stewie in https://github.com/griffin-stewie/Date/pull/11
 
