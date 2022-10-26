@@ -57,20 +57,15 @@ end
 platform :mac do
   desc "Build release build and notarize"
   lane :bump do |options|
-    if FastlaneCore::Helper.ci?
-      increment_build_number_in_xcodeproj(
-        xcodeproj: xcodeproj_path 
-      )
-    end
+    increment_build_number_in_xcodeproj(
+      xcodeproj: xcodeproj_path 
+    )
 
-    puts ENV["GITHUB_OUTPUT"]
-    puts github_output
     tag = tag_from_env
     if tag == nil  
       tag = options[:tag]      
     end 
 
-    puts tag
     if tag != nil && !tag.empty?
       version = tag[1..-1]
       increment_version_number_in_xcodeproj(
