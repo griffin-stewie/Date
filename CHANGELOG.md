@@ -1,5 +1,7 @@
 # Changelog
 
+## [v1.0.3](https://github.com/griffin-stewie/Date/compare/v1.0.2...v1.0.3) - 2023-01-16
+
 ## [v1.0.1](https://github.com/griffin-stewie/Date/compare/v1.0.0...v1.0.1) - 2023-01-16
 - add icon images by @griffin-stewie in https://github.com/griffin-stewie/Date/pull/15
 
